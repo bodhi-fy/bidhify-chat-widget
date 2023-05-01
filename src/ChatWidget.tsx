@@ -2,6 +2,7 @@ import { createSignal, For, Show } from "solid-js";
 import { isChatOpen } from "./App";
 import PrimaryUserMessage from "./PrimaryUserMessage";
 import SecondaryUserMessage from "./SecondaryUserMessage";
+import SecondaryUserTyping from "./SecondaryUserTyping";
 
 const [input, setInput] = createSignal("");
 const [isTyping, setIsTyping] = createSignal(false);
@@ -88,7 +89,7 @@ function ChatWidget() {
               }}
             </For>
             <Show when={isTyping()}>
-              Typing...
+              <SecondaryUserTyping/>
             </Show>
           </div>
           <div class="border-t-2 border-gray-200 px-0 pt-3 mb-2 sm:mb-0">
