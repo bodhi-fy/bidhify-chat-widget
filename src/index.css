@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  width: 200px;
+}
+
+.message-box {
+  height: 300px;
+}
+
+
+#chat-widget {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 330px;
+      background-color: whitesmoke;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.3);
+      transition: 0.3s;
+}
+
+#chat-widget:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+}
+
+.fade-in {
+  animation: fadeIn .5s;
+}
+
+.fade-out {
+  animation: fadeOut .5s;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(231, 231, 231) white;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(231, 231, 231);
+  border-radius: 20px;
+  border: 3px solid white;
+}
+
+#chat-button {
+  background-image: linear-gradient(to right, #d53669, #4f46e5);
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  box-shadow: 0 4px 8px 0 #d536687b;
+  transition: 0.3s;
+}
+
+#chat-button:hover {
+  box-shadow: 0 8px 16px 0 #d53668a6;
+}
+
+.plus-icon,
+.close-icon {
+  position: absolute;
+  opacity: 0;
+}
+
+.plus-icon {
+  position: absolute;
+  opacity: 1;
+}
+
+.plus-icon-animate {
+  animation: plus-to-close 0.5s ease forwards;
+}
+
+.close-icon-animate {
+  animation: close-to-plus 0.5s ease forwards;
+}
+
+@keyframes plus-to-close {
+  0% {
+    opacity: 1;
+    transform: rotate(0);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes close-to-plus {
+  0% {
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
