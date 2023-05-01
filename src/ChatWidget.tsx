@@ -21,6 +21,9 @@ const handleOnChatInput: any = (event: any, data: any) => {
     setMessage((a) => [...a, { value: inputVal, type: 0 }]);
     callChatService(inputVal);
     setIsTyping(true);
+    if (window.updateChatScroll !== undefined) {
+      window.updateChatScroll();
+    }
   } else {
     setInput(inputVal);
   }
@@ -32,6 +35,9 @@ const handleOnButtonSubmit: any = (event: any, data: any) => {
   setMessage((a) => [...a, { value: inputVal, type: 0 }]);
   callChatService(inputVal);
   setIsTyping(true);
+  if (window.updateChatScroll !== undefined) {
+    window.updateChatScroll();
+  }
 };
 
 function callChatService(messageValue: string) {
@@ -40,6 +46,9 @@ function callChatService(messageValue: string) {
     const newMessages = [...message(), { value: responseVal, type: 1 }];
     setIsTyping(false);
     setMessage((a) => newMessages);
+    if (window.updateChatScroll !== undefined) {
+      window.updateChatScroll();
+    }
   }, 3000);
   return responseVal;
 }
@@ -89,7 +98,7 @@ function ChatWidget() {
               }}
             </For>
             <Show when={isTyping()}>
-              <SecondaryUserTyping/>
+              <SecondaryUserTyping />
             </Show>
           </div>
           <div class="border-t-2 border-gray-200 px-0 pt-3 mb-2 sm:mb-0">
