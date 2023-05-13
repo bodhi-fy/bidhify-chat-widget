@@ -41,16 +41,24 @@ function init(){
     }
 
     const script = document.createElement("script");
-    script.src = "index.js";
-    script.crossOrigin = "anonymous";
-    script.type = "module"
-  
-    const stylesheet = document.createElement("link");
-    stylesheet.rel = "stylesheet";
-    stylesheet.href = "style.css";
-  
-    document.head.appendChild(script);
-    document.head.appendChild(stylesheet);
+    const currentScriptElm = document.currentScript;
+    if (currentScriptElm) {
+        let widgetScriptSrc  = (currentScriptElm as HTMLScriptElement).src
+        const uiWidgetScriptSrcJS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'index.js')
+        const uiWidgetScriptSrcCSS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'index.css')
+        script.src = uiWidgetScriptSrcJS
+        script.crossOrigin = "anonymous";
+        script.type = "module"
+        document.head.appendChild(script);
+
+        const stylesheet = document.createElement("link");
+        stylesheet.rel = "stylesheet";
+        stylesheet.href = uiWidgetScriptSrcCSS
+      
+        document.head.appendChild(stylesheet);
+    } else {
+        console.log('current bodhify chat widget url not available');
+    }
 }
 
 init()
