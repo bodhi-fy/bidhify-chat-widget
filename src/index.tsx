@@ -4,7 +4,12 @@ import { render } from 'solid-js/web';
 import './index.css';
 import App from './App';
 
-const root = document.getElementById('root');
+const div = document.createElement("div");
+div.id = 'bodhify-chat-widget';
+document.body.appendChild(div);
+
+const root = document.getElementById('bodhify-chat-widget');
+
 
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   throw new Error(

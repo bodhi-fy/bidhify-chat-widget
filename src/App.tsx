@@ -3,7 +3,7 @@ import { Component, createSignal } from "solid-js";
 // import styles from './App.module.css';
 import ChatButton from "./ChatButton";
 import ChatWidget from "./ChatWidget";
-import { ChatWidgetCtx, getBodhifyChatWidgetCtx } from "./util/contextExposer";
+import { ChatWidgetCtx, getBodhifyChatWidgetCtxEntry } from "./util/contextExposer";
 
 interface Message {
   value: string;
@@ -21,7 +21,7 @@ const [message, setMessage] = createSignal<Message[]>([]);
 declare global {
   interface Window {
     updateChatScroll?: () => void;
-    getBodhifyChatWidgetCtx?: () => ChatWidgetCtx;
+    getBodhifyChatWidgetCtxEntry?: () => ChatWidgetCtx;
   }
 }
 
@@ -32,7 +32,7 @@ window.updateChatScroll = () => {
   }
 };
 
-window.getBodhifyChatWidgetCtx = getBodhifyChatWidgetCtx;
+window.getBodhifyChatWidgetCtxEntry = getBodhifyChatWidgetCtxEntry;
 
 const App: Component = () => {
   return (

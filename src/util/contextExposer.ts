@@ -54,10 +54,10 @@ function setSecondaryUserIsTyping(isTyping:boolean):void{
 
 
 function setSecondaryUserMessage(msg:string):void{
-    setMessage((a) => [...a, { value: msg, type: 1 }]);
+    setMessage((messages) => [...messages, { value: msg, type: 1 }]);
 }
 
-function getBodhifyChatWidgetCtx():ChatWidgetCtx{
+function getBodhifyChatWidgetCtxEntry():ChatWidgetCtx{
     return {
         setPrimaryUserName, 
         setPrimaryUserDescription, 
@@ -73,4 +73,4 @@ function getBodhifyChatWidgetCtx():ChatWidgetCtx{
 }
 
 export type {ChatWidgetCtx}
-export {getBodhifyChatWidgetCtx}
+export {getBodhifyChatWidgetCtxEntry}

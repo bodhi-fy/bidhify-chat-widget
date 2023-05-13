@@ -8,5 +8,10 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    "lib": {
+      "name":"bodhify-chat-widget",
+      "entry": ["src/index.tsx", "lib/bodhify-chat-widget.ts"],
+      "formats": ["es", "cjs"],
+    }
   },
 });
