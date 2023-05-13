@@ -1,3 +1,5 @@
+import { secondaryUserDetails } from "./App";
+
 function SecondaryUserMessage(props:{message:string}) {
   return (
     <div class="chat-message fade-in">
@@ -10,7 +12,7 @@ function SecondaryUserMessage(props:{message:string}) {
           </div>
         </div>
         <img
-          src="/src/assets/secondary-user.png"
+          src={secondaryUserDetails().imageURL}
           alt="Secondary User Profile"
           class="w-8 h-8 rounded-full order-1"
         />

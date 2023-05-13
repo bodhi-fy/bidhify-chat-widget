@@ -4,6 +4,8 @@ import { Component, createSignal } from "solid-js";
 import ChatButton from "./ChatButton";
 import ChatWidget from "./ChatWidget";
 import { ChatWidgetCtx, getBodhifyChatWidgetCtxEntry } from "./util/contextExposer";
+import primaryUserImageUrl from './assets/primary-user.png'
+import secondaryUserImageUrl from './assets/secondary-user.png'
 
 interface Message {
   value: string;
@@ -11,8 +13,8 @@ interface Message {
 }
 
 const [isChatOpen, setIsChatOpen] = createSignal(false);
-const [primaryUserDetails, setPrimaryUserDetails] = createSignal({name:'', description:'', imageURL:'/src/assets/primary-user.png'});
-const [secondaryUserDetails, setSecondaryUserDetails] = createSignal({name:'', description:'', imageURL:'/src/assets/secondary-user.png'});
+const [primaryUserDetails, setPrimaryUserDetails] = createSignal({name:'', description:'', imageURL:primaryUserImageUrl});
+const [secondaryUserDetails, setSecondaryUserDetails] = createSignal({name:'', description:'', imageURL:secondaryUserImageUrl});
 const [isSecondaryUserOnline, setIsSecondaryUserOnline] = createSignal(false);
 const [isSecondaryUserTyping, setIsSecondaryUserTyping] = createSignal(false);
 const [message, setMessage] = createSignal<Message[]>([]);

@@ -45,7 +45,7 @@ function init(){
     if (currentScriptElm) {
         let widgetScriptSrc  = (currentScriptElm as HTMLScriptElement).src
         const uiWidgetScriptSrcJS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'index.js')
-        const uiWidgetScriptSrcCSS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'index.css')
+        const uiWidgetScriptSrcCSS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'style.css')
         script.src = uiWidgetScriptSrcJS
         script.crossOrigin = "anonymous";
         script.type = "module"
