@@ -1,18 +1,10 @@
 import { createSignal, For, Show } from "solid-js";
-import { isChatOpen } from "./App";
+import { isChatOpen, isSecondaryUserOnline, isSecondaryUserTyping, message, primaryUserDetails, secondaryUserDetails, setIsSecondaryUserTyping, setMessage } from "./App";
 import PrimaryUserMessage from "./PrimaryUserMessage";
 import SecondaryUserMessage from "./SecondaryUserMessage";
 import SecondaryUserTyping from "./SecondaryUserTyping";
 
 const [input, setInput] = createSignal("");
-const [isTyping, setIsTyping] = createSignal(false);
-
-interface Message {
-  value: string;
-  type: number;
-}
-
-const [message, setMessage] = createSignal<Message[]>([]);
 
 const handleOnChatInput: any = (event: any, data: any) => {
   const inputVal = event.target.value;
@@ -20,7 +12,7 @@ const handleOnChatInput: any = (event: any, data: any) => {
     setInput("");
     setMessage((a) => [...a, { value: inputVal, type: 0 }]);
     callChatService(inputVal);
-    setIsTyping(true);
+    setIsSecondaryUserTyping(true);
     if (window.updateChatScroll !== undefined) {
       window.updateChatScroll();
     }
@@ -34,7 +26,7 @@ const handleOnButtonSubmit: any = (event: any, data: any) => {
   setInput("");
   setMessage((a) => [...a, { value: inputVal, type: 0 }]);
   callChatService(inputVal);
-  setIsTyping(true);
+  setIsSecondaryUserTyping(true);
   if (window.updateChatScroll !== undefined) {
     window.updateChatScroll();
   }
@@ -44,7 +36,7 @@ function callChatService(messageValue: string) {
   const responseVal = "Hello";
   setTimeout(() => {
     const newMessages = [...message(), { value: responseVal, type: 1 }];
-    setIsTyping(false);
+    setIsSecondaryUserTyping(false);
     setMessage((a) => newMessages);
     if (window.updateChatScroll !== undefined) {
       window.updateChatScroll();
@@ -64,22 +56,31 @@ function ChatWidget() {
           <div class="flex sm:items-center justify-between pt-0 pb-3 border-b-2 border-gray-200 ">
             <div class="relative flex items-center space-x-4">
               <div class="relative">
+                <Show when={isSecondaryUserOnline()}>
                 <span class="absolute text-green-500 right-0 bottom-0">
                   <svg width="20" height="20">
                     <circle cx="4" cy="4" r="4" fill="currentColor"></circle>
                   </svg>
                 </span>
+                </Show>
+                <Show when={!isSecondaryUserOnline()}>
+                <span class="absolute text-gray-500 right-0 bottom-0">
+                  <svg width="20" height="20">
+                    <circle cx="4" cy="4" r="4" fill="currentColor"></circle>
+                  </svg>
+                </span>
+                </Show>
                 <img
-                  src="/src/assets/secondary-user.png"
+                  src={secondaryUserDetails().imageURL}
                   alt=""
                   class="w-8 sm:w-12 h-8 sm:h-12 rounded-full"
                 />
               </div>
               <div class="flex flex-col leading-tight">
                 <div class="text-lg mt-0 flex items-center">
-                  <span class="text-gray-700 mr-3">Bodhify</span>
+                  <span class="text-gray-700 mr-3">{secondaryUserDetails().name}</span>
                 </div>
-                <span class="text-sm text-gray-500">Bodhify Chat Agent</span>
+                <span class="text-sm text-gray-500">{secondaryUserDetails().description}</span>
               </div>
             </div>
             <div class="flex items-center space-x-1"></div>
@@ -97,7 +98,7 @@ function ChatWidget() {
                 );
               }}
             </For>
-            <Show when={isTyping()}>
+            <Show when={isSecondaryUserTyping()}>
               <SecondaryUserTyping />
             </Show>
           </div>
@@ -136,5 +137,5 @@ function ChatWidget() {
   );
 }
 
-export { input, message };
+export { input, message, setMessage };
 export default ChatWidget;

@@ -3,12 +3,25 @@ import { Component, createSignal } from "solid-js";
 // import styles from './App.module.css';
 import ChatButton from "./ChatButton";
 import ChatWidget from "./ChatWidget";
+import { ChatWidgetCtx, getBodhifyChatWidgetCtx } from "./util/contextExposer";
+
+interface Message {
+  value: string;
+  type: number;
+}
 
 const [isChatOpen, setIsChatOpen] = createSignal(false);
+const [primaryUserDetails, setPrimaryUserDetails] = createSignal({name:'', description:'', imageURL:'/src/assets/primary-user.png'});
+const [secondaryUserDetails, setSecondaryUserDetails] = createSignal({name:'', description:'', imageURL:'/src/assets/secondary-user.png'});
+const [isSecondaryUserOnline, setIsSecondaryUserOnline] = createSignal(false);
+const [isSecondaryUserTyping, setIsSecondaryUserTyping] = createSignal(false);
+const [message, setMessage] = createSignal<Message[]>([]);
+
 
 declare global {
   interface Window {
     updateChatScroll?: () => void;
+    getBodhifyChatWidgetCtx?: () => ChatWidgetCtx;
   }
 }
 
@@ -19,6 +32,8 @@ window.updateChatScroll = () => {
   }
 };
 
+window.getBodhifyChatWidgetCtx = getBodhifyChatWidgetCtx;
+
 const App: Component = () => {
   return (
     <>
@@ -28,5 +43,18 @@ const App: Component = () => {
   );
 };
 
-export { isChatOpen, setIsChatOpen };
 export default App;
+export { 
+  isChatOpen, 
+  setIsChatOpen,
+  primaryUserDetails,
+  setPrimaryUserDetails,
+  secondaryUserDetails,
+  setSecondaryUserDetails,
+  isSecondaryUserOnline,
+  setIsSecondaryUserOnline,
+  isSecondaryUserTyping,
+  setIsSecondaryUserTyping,
+  message,
+  setMessage
+};
