@@ -1,8 +1,9 @@
-import { createSignal, For, Show } from "solid-js";
-import { isChatOpen, isSecondaryUserOnline, isSecondaryUserTyping, message, primaryUserDetails, secondaryUserDetails, setIsSecondaryUserTyping, setMessage } from "./App";
+import { createEffect, createSignal, For, Show } from "solid-js";
+import { isChatOpen, isSecondaryUserOnline, isSecondaryUserTyping, message,  secondaryUserDetails, setMessage } from "./App";
 import PrimaryUserMessage from "./PrimaryUserMessage";
 import SecondaryUserMessage from "./SecondaryUserMessage";
 import SecondaryUserTyping from "./SecondaryUserTyping";
+import { cbOnPrimaryUserMessageChange, cbOnPrimaryUserMessageSubmit } from "./util/contextExposer";
 
 const [input, setInput] = createSignal("");
 
@@ -11,13 +12,10 @@ const handleOnChatInput: any = (event: any, data: any) => {
   if (event.key === "Enter") {
     setInput("");
     setMessage((a) => [...a, { value: inputVal, type: 0 }]);
-    callChatService(inputVal);
-    setIsSecondaryUserTyping(true);
-    if (window.updateChatScroll !== undefined) {
-      window.updateChatScroll();
-    }
+    cbOnPrimaryUserMessageSubmit && cbOnPrimaryUserMessageSubmit(inputVal)
   } else {
     setInput(inputVal);
+    cbOnPrimaryUserMessageChange && cbOnPrimaryUserMessageChange(inputVal)
   }
 };
 
@@ -25,27 +23,19 @@ const handleOnButtonSubmit: any = (event: any, data: any) => {
   const inputVal = input();
   setInput("");
   setMessage((a) => [...a, { value: inputVal, type: 0 }]);
-  callChatService(inputVal);
-  setIsSecondaryUserTyping(true);
-  if (window.updateChatScroll !== undefined) {
-    window.updateChatScroll();
-  }
+  cbOnPrimaryUserMessageSubmit && cbOnPrimaryUserMessageSubmit(inputVal)
 };
 
-function callChatService(messageValue: string) {
-  const responseVal = "Hello";
-  setTimeout(() => {
-    const newMessages = [...message(), { value: responseVal, type: 1 }];
-    setIsSecondaryUserTyping(false);
-    setMessage((a) => newMessages);
-    if (window.updateChatScroll !== undefined) {
-      window.updateChatScroll();
-    }
-  }, 3000);
-  return responseVal;
-}
-
 function ChatWidget() {
+
+  createEffect(() => {
+      if (message().length>0) {
+        if (window.updateChatScroll !== undefined) {
+          window.updateChatScroll();
+        }
+      }
+  });
+
   return (
     <Show when={isChatOpen()}>
       <div

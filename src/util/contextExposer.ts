@@ -11,6 +11,8 @@ type ChatWidgetCtx = {
     setSecondaryUserIsTyping: (isTyping: boolean) => void;
     setSecondaryUserImageURL: (url: string) => void;
     setSecondaryUserMessage: (msg: string) => void;
+    onPrimaryUserMessageChange: (callback:(msg: string) => any) => void;
+    onPrimaryUserMessageSubmit: (callback:(msg: string) => any) => void;
   };
   
 
@@ -57,6 +59,17 @@ function setSecondaryUserMessage(msg:string):void{
     setMessage((messages) => [...messages, { value: msg, type: 1 }]);
 }
 
+let cbOnPrimaryUserMessageChange:((msg: string) => any) | undefined = undefined
+let cbOnPrimaryUserMessageSubmit:((msg: string) => any) | undefined = undefined
+
+function onPrimaryUserMessageChange(callback:(msg: string) => any):void{
+    cbOnPrimaryUserMessageChange = callback
+}
+
+function onPrimaryUserMessageSubmit(callback:(msg: string) => any):void{
+    cbOnPrimaryUserMessageSubmit = callback
+}
+
 function getBodhifyChatWidgetCtxEntry():ChatWidgetCtx{
     return {
         setPrimaryUserName, 
@@ -68,9 +81,15 @@ function getBodhifyChatWidgetCtxEntry():ChatWidgetCtx{
         setSecondaryUserImageURL,
         setSecondaryUserIsOnline,
         setSecondaryUserIsTyping,
-        setSecondaryUserMessage
+        setSecondaryUserMessage,
+        onPrimaryUserMessageChange,
+        onPrimaryUserMessageSubmit
     }
 }
 
 export type {ChatWidgetCtx}
-export {getBodhifyChatWidgetCtxEntry}
+export {
+    getBodhifyChatWidgetCtxEntry,
+    cbOnPrimaryUserMessageChange,
+    cbOnPrimaryUserMessageSubmit
+}
