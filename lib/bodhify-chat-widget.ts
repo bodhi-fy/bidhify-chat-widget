@@ -46,16 +46,16 @@ function init(){
         let widgetScriptSrc  = (currentScriptElm as HTMLScriptElement).src
         const uiWidgetScriptSrcJS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'index.js')
         const uiWidgetScriptSrcCSS = widgetScriptSrc.replace('bodhify-chat-widget.js', 'style.css')
-        script.src = uiWidgetScriptSrcJS
-        script.crossOrigin = "anonymous";
-        script.type = "module"
-        document.head.appendChild(script);
 
         const stylesheet = document.createElement("link");
         stylesheet.rel = "stylesheet";
         stylesheet.href = uiWidgetScriptSrcCSS
-      
         document.head.appendChild(stylesheet);
+
+        script.src = uiWidgetScriptSrcJS
+        script.crossOrigin = "anonymous";
+        script.type = "module"
+        document.head.appendChild(script);
     } else {
         console.log('current bodhify chat widget url not available');
     }
